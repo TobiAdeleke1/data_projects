@@ -78,7 +78,7 @@ if __name__ =='__main__':
     plotPieGrapgh()
     byCountryData()
 
-    print(f'Code finisehd in: {time.time()-start_time}')
+    print(f'Code finisehd in: {time.time()-start_time}') 
 
 
 
