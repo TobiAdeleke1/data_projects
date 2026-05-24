@@ -1,0 +1,8 @@
+id,customer_id,product,amount,status,region
+1,101,Solar Panel 400W,329.99,shipped,UK
+2,105,Inverter 3kW,540.50,shipped,DE
+3,101,Cable 10m,29.99,pending,UK
+4,103,Mount Kit,89.00,cancelled,FR
+5,102,Battery 200Ah,749.00,shipped,UK
+6,101,Solar Panel 400W,329.99,shipped,DE
+7,102,Controller MPPT,110.00,pending,UK
