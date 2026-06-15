@@ -56,7 +56,42 @@ class SECPipeline:
         return self
 
     def transform(self):
+        if not self.response:
+            logger.error("No API response: was fetch() called ?")
+            return self
+        
+        logger.info("Parsing SEC response for %s", self.company_cik)
+        unit =  str(list(self.response["units"].keys())[0])
+        cik = self.response["cik"]
+        tag = self.response["tag"]
+        entityname = self.response["entityName"]
+        all_unit_vals = self.response["units"][unit]
+        row_list = [
+            {
+                **unit_vals,
+                "cik": cik,
+                "entityname": entityname,
+                "unit": unit,
+                "tag": tag,
+                "end_date": unit_vals["end"],
+                "value": unit_vals["val"],
+                "accession_number": unit_vals["accn"],
+                "fiscal_year": unit_vals["fy"],
+                "fiscal_period": unit_vals["fp"],
+                "form": unit_vals["form"],
+                "filed": unit_vals["filed"],
+                "frame": unit_vals.get("frame"),
+                "fetched_at": datetime.now(),
+            }
+            for unit_vals in all_unit_vals
+        ]
+        self.df = pd.DataFrame(row_list)
+        self.df["end_date"] = pd.to_datetime(self.df["end_date"])
+        self.df["filed"] = pd.to_datetime(self.df["filed"])
+        logger.info("Transformed %s records", len(self.df))
         return self
+
+
 
     def load(self):
         return self
