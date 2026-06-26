@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-REQUEST_SLEEP = (1 / 10) * 4  # Max: 10requests per seconds
+REQUEST_SLEEP = (1 / 10) * 4  # Max: 10 requests per seconds
 
 
 class SECPipeline:
@@ -55,6 +55,7 @@ class SECPipeline:
             logging.error("message %s", err)
         return self
 
+
     def transform(self):
         if not self.response:
             logger.error("No API response: was fetch() called ?")
@@ -92,8 +93,19 @@ class SECPipeline:
         return self
 
 
-
     def load(self):
+        if self.df is None:
+            logger.error("No Records to load, was fetch() called? ")
+            return self
+
+        logger.info("Loading %s records into sec_accountpayable", len(self.df))
+        with self.engine.connect() as conn:
+            self.df.to_sql("sec_accountpayable", conn, if_exists="append", index=False)
+            total = pd.read_sql(
+                "SELECT COUNT(*) AS total FROM sec_accountpayable;", conn
+            )
+            logger.info("Load Complete - %s total rows in table", total)
+        
         return self
 
 
