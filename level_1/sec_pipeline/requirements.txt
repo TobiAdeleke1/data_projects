@@ -1,5 +1,6 @@
 requests==2.34.2
 SQLAlchemy==2.0.43
+streamlit==1.57.0
 pandas==3.0.3
 psycopg2-binary==2.9.12
 python-dotenv==1.1.0
