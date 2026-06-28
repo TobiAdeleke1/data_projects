@@ -24,3 +24,14 @@ with engine.connect() as conn:
             query_data = sql_file.read()
             db_result = pd.read_sql(text(query_data), con=conn)
             query_dict[f_name] = db_result
+
+# Streamlit Display
+st.subheader("SEC: Companies Quarterly Analytics.")
+st.dataframe(
+    query_dict['quarterly'],
+    hide_index=True)
+
+st.subheader("SEC: Companies Yearly Analytics.")
+st.dataframe(
+        query_dict['yearly'],
+        hide_index=True)
